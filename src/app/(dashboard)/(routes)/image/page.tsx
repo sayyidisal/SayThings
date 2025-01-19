@@ -8,9 +8,9 @@ import { Download, ImageIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { amountOptions, formSchema, resolutionOptions } from "./constants";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem } from "../../../../components/ui/form";
+import { Input } from "../../../../components/ui/input";
+import { Button } from "../../../../components/ui/button";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Empty from "@/components/empty";
@@ -21,8 +21,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Card, CardFooter } from "@/components/ui/card";
+} from "../../../../components/ui/select";
+import { Card, CardFooter } from "../../../../components/ui/card";
 import Image from "next/image";
 import { useProModal } from "../../../../../hooks/use-pro-modal";
 import toast from "react-hot-toast";
