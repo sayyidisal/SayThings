@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import axios from "axios";
@@ -18,8 +19,10 @@ import Loader from "@/components/loader";
 import { cn } from "@/lib/utils";
 import UserAvatar from "@/components/user-avatar";
 import BotAvatar from "@/components/bot-avatar";
+import { useProModal } from "../../../../../hooks/use-pro-modal";
 
 const Conversation = () => {
+  const proModal = useProModal();
   const router = useRouter();
   const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -51,8 +54,10 @@ const Conversation = () => {
 
       setMessages((current) => [...current, userMessage, assistantMessage]);
       form.reset();
-    } catch (error) {
-      console.error("Error:", error);
+    } catch (error: any) {
+      if (error?.response?.status === 403) {
+        proModal.onOpen();
+      }
     } finally {
       router.refresh();
     }

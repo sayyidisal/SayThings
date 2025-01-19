@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
@@ -19,9 +20,11 @@ import Loader from "@/components/loader";
 import { cn } from "@/lib/utils";
 import UserAvatar from "@/components/user-avatar";
 import BotAvatar from "@/components/bot-avatar";
-import ReactMarkdown from 'react-markdown';
+import ReactMarkdown from "react-markdown";
+import { useProModal } from "../../../../../hooks/use-pro-modal";
 
 const CodePage = () => {
+  const proModal = useProModal();
   const router = useRouter();
   const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -53,8 +56,10 @@ const CodePage = () => {
 
       setMessages((current) => [...current, userMessage, assistantMessage]);
       form.reset();
-    } catch (error) {
-      console.error("Error:", error);
+    } catch (error: any) {
+      if (error?.response?.status === 403) {
+        proModal.onOpen();
+      }
     } finally {
       router.refresh();
     }
@@ -136,14 +141,17 @@ const CodePage = () => {
                   {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
                   <ReactMarkdown
                     components={{
-                      pre: ({ node, ...props}) => (
+                      pre: ({ node, ...props }) => (
                         <div className="overflow-auto w-full my-2 bg-black/10 p-2 rounded-lg">
                           <pre {...props} />
                         </div>
                       ),
-                      code: ({node, ...props}) => (
-                        <code className="bg-black/10 rounded-lg p-1" {...props} />
-                      )
+                      code: ({ node, ...props }) => (
+                        <code
+                          className="bg-black/10 rounded-lg p-1"
+                          {...props}
+                        />
+                      ),
                     }}
                     className="text-sm overflow-hidden leading-7"
                   >

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import axios from "axios";
@@ -14,8 +15,10 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Empty from "@/components/empty";
 import Loader from "@/components/loader";
+import { useProModal } from "../../../../../hooks/use-pro-modal";
 
 const MusicPage = () => {
+  const proModal = useProModal();
   const router = useRouter();
   const [music, setMusic] = useState<string>();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -34,8 +37,10 @@ const MusicPage = () => {
       const response = await axios.post("/api/music", values);
       setMusic(response.data.audio);
       form.reset();
-    } catch (error) {
-      console.error("Error:", error);
+    } catch (error: any) {
+      if (error?.response?.status === 403) {
+        proModal.onOpen();
+      }
     } finally {
       router.refresh();
     }

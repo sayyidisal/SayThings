@@ -8,6 +8,7 @@ import {
   // SignedOut,
   // UserButton,
 } from "@clerk/nextjs";
+import { ModalProvider } from "@/components/modal-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,12 +36,7 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          {/* <SignedOut>
-            <SignInButton />
-          </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn> */}
+          <ModalProvider />
           {children}
         </body>
       </html>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import axios from "axios";
@@ -23,8 +24,10 @@ import {
 } from "@/components/ui/select";
 import { Card, CardFooter } from "@/components/ui/card";
 import Image from "next/image";
+import { useProModal } from "../../../../../hooks/use-pro-modal";
 
 const ImagePage = () => {
+  const proModal = useProModal();
   const router = useRouter();
   const [images, setImages] = useState<string[]>([]);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -52,9 +55,10 @@ const ImagePage = () => {
         [];
       setImages(urls); // Update state
       form.reset(); // Reset form
-    } catch (error) {
-      console.error("Error:", error);
-      alert("Something went wrong. Please try again.");
+    } catch (error: any) {
+      if (error?.response?.status === 403) {
+        proModal.onOpen();
+      }
     } finally {
       router.refresh(); // Refresh the page (if required)
     }
