@@ -3,7 +3,7 @@
 
 import axios from "axios";
 import * as z from "zod";
-import Heading from "@/components/heading";
+import Heading from "../../../../components/heading";
 import { Download, ImageIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { amountOptions, formSchema, resolutionOptions } from "./constants";
@@ -13,8 +13,8 @@ import { Input } from "../../../../components/ui/input";
 import { Button } from "../../../../components/ui/button";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import Empty from "@/components/empty";
-import Loader from "@/components/loader";
+import Empty from "../../../../components/empty";
+import Loader from "../../../../components/loader";
 import {
   Select,
   SelectContent,

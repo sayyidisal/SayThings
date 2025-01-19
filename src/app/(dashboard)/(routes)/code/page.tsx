@@ -4,7 +4,7 @@
 
 import axios from "axios";
 import * as z from "zod";
-import Heading from "@/components/heading";
+import Heading from "../../../../components/heading";
 import { Code } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { formSchema } from "./constants";
@@ -15,11 +15,11 @@ import { Button } from "../../../../components/ui/button";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
-import Empty from "@/components/empty";
-import Loader from "@/components/loader";
+import Empty from "../../../../components/empty";
+import Loader from "../../../../components/loader";
 import { cn } from "@/lib/utils";
-import UserAvatar from "@/components/user-avatar";
-import BotAvatar from "@/components/bot-avatar";
+import UserAvatar from "../../../../components/user-avatar";
+import BotAvatar from "../../../../components/bot-avatar";
 import ReactMarkdown from "react-markdown";
 import { useProModal } from "../../../../../hooks/use-pro-modal";
 import toast from "react-hot-toast";
