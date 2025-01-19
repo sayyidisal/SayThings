@@ -17,7 +17,7 @@ import { useState } from "react";
 import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
 import Empty from "../../../../components/empty";
 import Loader from "../../../../components/loader";
-import { cn } from "@/lib/utils";
+import { cn } from "../../../../lib/utils";
 import UserAvatar from "../../../../components/user-avatar";
 import BotAvatar from "../../../../components/bot-avatar";
 import ReactMarkdown from "react-markdown";

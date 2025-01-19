@@ -22,7 +22,7 @@ import {
   DialogTitle,
 } from "./ui/dialog";
 import { Card } from "./ui/card";
-import { cn } from "@/lib/utils";
+import { cn } from "../lib/utils";
 import { Button } from "./ui/button";
 import { useState } from "react";
 import toast from "react-hot-toast";
