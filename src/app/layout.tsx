@@ -8,9 +8,9 @@ import {
   // SignedOut,
   // UserButton,
 } from "@clerk/nextjs";
-import { ModalProvider } from "@/components/modal-provider";
-import { ToasterProvider } from "@/components/toaster-provider";
-import { CrispProvider } from "@/components/crisp-provider";
+import { ModalProvider } from "../components/modal-provider";
+import { ToasterProvider } from "../components/toaster-provider";
+import { CrispProvider } from "../components/crisp-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
