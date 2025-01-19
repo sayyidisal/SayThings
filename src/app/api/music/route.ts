@@ -1,5 +1,5 @@
-import { checkApiLimit, increaseApiLimit } from "@/lib/api-limit";
-import { checkSubscription } from "@/lib/subscription";
+import { checkApiLimit, increaseApiLimit } from "../../../lib/api-limit";
+import { checkSubscription } from "../../../lib/subscription";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import Replicate from "replicate";

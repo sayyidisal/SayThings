@@ -1,6 +1,6 @@
 import Heading from "../../../../components/heading";
 import { SubscriptionButton } from "../../../../components/subscription-button";
-import { checkSubscription } from "@/lib/subscription";
+import { checkSubscription } from "../../../../lib/subscription";
 import { Settings } from "lucide-react";
 
 const SettingsPage = async () => {
