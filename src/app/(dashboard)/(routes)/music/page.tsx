@@ -12,16 +12,12 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
 import Empty from "@/components/empty";
 import Loader from "@/components/loader";
-import { cn } from "@/lib/utils";
-import UserAvatar from "@/components/user-avatar";
-import BotAvatar from "@/components/bot-avatar";
 
 const MusicPage = () => {
   const router = useRouter();
-  const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);
+  const [music, setMusic] = useState<string>();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -33,23 +29,10 @@ const MusicPage = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const userMessage: ChatCompletionMessageParam = {
-        role: "user",
-        content: values.prompt,
-      };
-      const newMessages = [...messages, userMessage];
+      setMusic(undefined);
 
-      const response = await axios.post("/api/conversation", {
-        messages: newMessages,
-      });
-
-      // Use the simplified response content
-      const assistantMessage: ChatCompletionMessageParam = {
-        role: "assistant",
-        content: response.data.content, // Directly access the `content` field
-      };
-
-      setMessages((current) => [...current, userMessage, assistantMessage]);
+      const response = await axios.post("/api/conversation", values);
+      setMusic(response.data.audio);
       form.reset();
     } catch (error) {
       console.error("Error:", error);
@@ -104,7 +87,7 @@ const MusicPage = () => {
               <Loader />
             </div>
           )}
-          {messages.length === 0 && !isLoading && (
+          {!music && !isLoading && (
             <Empty label="No conversation started." />
           )}
           <div>
