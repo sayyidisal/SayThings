@@ -1,3 +1,4 @@
+import { checkApiLimit, increaseApiLimit } from "@/lib/api-limit";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
@@ -17,7 +18,10 @@ export async function POST(req: Request) {
     }
 
     if (!openai.apiKey) {
-      return NextResponse.json({ error: "OpenAI API key not configured" }, { status: 500 });
+      return NextResponse.json(
+        { error: "OpenAI API key not configured" },
+        { status: 500 }
+      );
     }
 
     if (!prompt || typeof prompt !== "string") {
@@ -25,12 +29,24 @@ export async function POST(req: Request) {
     }
 
     if (isNaN(amount) || amount < 1 || amount > 10) {
-      return NextResponse.json({ error: "Amount must be between 1 and 10" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Amount must be between 1 and 10" },
+        { status: 400 }
+      );
     }
 
     const validResolutions = ["256x256", "512x512", "1024x1024"];
     if (!validResolutions.includes(resolution)) {
-      return NextResponse.json({ error: "Invalid resolution" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid resolution" },
+        { status: 400 }
+      );
+    }
+
+    const freeTrial = await checkApiLimit();
+
+    if (!freeTrial) {
+      return new NextResponse("Free trial has expired.", { status: 403 });
     }
 
     const response = await openai.images.generate({
@@ -38,6 +54,8 @@ export async function POST(req: Request) {
       n: parseInt(amount, 10),
       size: resolution,
     });
+
+    await increaseApiLimit();
 
     return NextResponse.json({ content: response.data });
   } catch (error: unknown) {
@@ -47,6 +65,9 @@ export async function POST(req: Request) {
       console.error("[IMAGE_GENERATION_ERROR]", "Unknown error");
     }
 
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }
